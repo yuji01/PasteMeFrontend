@@ -1,6 +1,4 @@
-FROM nginx:1.18-alpine
-LABEL maintainer="Lucien Shui" \
-      email="lucien@lucien.ink"
+FROM nginx:alpine
 
 ENV TZ=Asia/Shanghai
 COPY init.sh /temp
@@ -8,10 +6,11 @@ RUN cat /docker-entrypoint.sh >> /temp && \
     mv /temp /docker-entrypoint.sh && \
     chmod +x /docker-entrypoint.sh
 
-COPY public/conf.d/docker.conf pasteme/index.html pasteme/usr pasteme/favicon.ico /pasteme_tmp/
-RUN mv /pasteme_tmp/docker.conf /etc/nginx/conf.d/default.conf && \
+COPY pastme/* /pasteme_tmp/
+RUN mv /pasteme_tmp/conf.d/docker.conf /etc/nginx/conf.d/default.conf && \
     mkdir -p /www/pasteme/usr && \
-    mv /pasteme_tmp/index.html /pasteme_tmp/favicon.ico /www/pasteme/ && \
-    mv /pasteme_tmp/config.example.json /config.example.json && \
+    mv /pasteme_tmp/css/ /pasteme_tmp/img/ /pasteme_tmp/js/ /www/pasteme/ && \
+    mv /pasteme_tmp/favicon.ico /pasteme_tmp/index.html /pasteme_tmp/report.html /www/pasteme/ && \
+    mv /pasteme_tmp/usr/config.example.json /config.example.json && \
     rm -rf /pasteme_tmp
 EXPOSE 8080
