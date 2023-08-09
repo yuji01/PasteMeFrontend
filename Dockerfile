@@ -6,7 +6,7 @@ RUN cat /docker-entrypoint.sh >> /temp && \
     mv /temp /docker-entrypoint.sh && \
     chmod +x /docker-entrypoint.sh
 
-COPY pastme/* /pasteme_tmp/
+COPY pasteme /pasteme_tmp/
 RUN mv /pasteme_tmp/conf.d/docker.conf /etc/nginx/conf.d/default.conf && \
     mkdir -p /www/pasteme/usr && \
     mv /pasteme_tmp/css/ /pasteme_tmp/img/ /pasteme_tmp/js/ /www/pasteme/ && \
